@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import Gloss
+
 
 class ExchangeRateViewController: UIViewController {
 

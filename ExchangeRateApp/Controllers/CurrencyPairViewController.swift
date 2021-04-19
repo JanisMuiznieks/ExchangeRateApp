@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import FlagKit
+
 
 class CurrencyPairViewController: UIViewController {
 
@@ -40,7 +40,7 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
         return UITableViewCell()}
     
     let item = currency[indexPath.row]
-    cell.currencyAbriviationLabel?.text = item.currencyCode
+    cell.currencyAbriviationLabel?.text = "USD"
     cell.countryLabel?.text = item.currencyDescription
    
     
