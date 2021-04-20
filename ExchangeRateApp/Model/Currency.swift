@@ -6,76 +6,154 @@
 //
 
 import UIKit
+import Foundation
 
-class Currency {
-   
-    var currencyCode: String
-    var currencyDescription: String
-        
-    var all: [Currency] = [
-        Currency(currencyCode: "USD", currencyDescription: "United States Dollar"),
-        Currency(currencyCode: "EUR", currencyDescription: "Euros"),
-        Currency(currencyCode: "GBP", currencyDescription: "British Pound"),
-        Currency(currencyCode: "AUD", currencyDescription: "Australian Dollar"),
-        Currency(currencyCode: "CAD", currencyDescription: "Canadian Dollar"),
-        Currency(currencyCode: "SGD", currencyDescription: "Singapore Dollar"),
-        Currency(currencyCode: "AED", currencyDescription: "Emirati Dirham"),
-        Currency(currencyCode: "ARS", currencyDescription: "Argentine Peso"),
-        Currency(currencyCode: "BGN", currencyDescription: "Burlgarian Lev"),
-        Currency(currencyCode: "BHD", currencyDescription: "Bahrain Dinar"),
-        Currency(currencyCode: "BND", currencyDescription: "Bruneuan Dollar"),
-        Currency(currencyCode: "BRL", currencyDescription: "Brazilian Real"),
-        Currency(currencyCode: "BWP", currencyDescription: "Botswana Pula"),
-        Currency(currencyCode: "CHF", currencyDescription: "Swiss Franc"),
-        Currency(currencyCode: "CLP", currencyDescription: "Chilean Peso"),
-        Currency(currencyCode: "CNY", currencyDescription: "Chinese Yuan Renminbi"),
-        Currency(currencyCode: "COP", currencyDescription: "Colombian Peso"),
-        Currency(currencyCode: "CZK", currencyDescription: "Czech Koruna"),
-        Currency(currencyCode: "DKK", currencyDescription: "Danish Krone"),
-        Currency(currencyCode: "HKD", currencyDescription: "Hong Kong Dollar"),
-        Currency(currencyCode: "HRK", currencyDescription: "Croatian Kuna"),
-        Currency(currencyCode: "HUF", currencyDescription: "Hungarian Forint"),
-        Currency(currencyCode: "IDR", currencyDescription: "Indonesian Rupiah"),
-        Currency(currencyCode: "ILS", currencyDescription: "Israeli Shekel"),
-        Currency(currencyCode: "INR", currencyDescription: "Indian Rupee"),
-        Currency(currencyCode: "IRR", currencyDescription: "Iranian Rial"),
-        Currency(currencyCode: "ISK", currencyDescription: "Icelandic Krona"),
-        Currency(currencyCode: "JPY", currencyDescription: "Japanese Yen"),
-        Currency(currencyCode: "KRW", currencyDescription: "South Korean Won"),
-        Currency(currencyCode: "KWD", currencyDescription: "Kuwaiti Dinar"),
-        Currency(currencyCode: "KZT", currencyDescription: "Kazakhstani Tenge"),
-        Currency(currencyCode: "LKR", currencyDescription: "Sri Lankan Rupee"),
-        Currency(currencyCode: "LYD", currencyDescription: "Libyan Dinar"),
-        Currency(currencyCode: "MUR", currencyDescription: "Mauritian Rupee"),
-        Currency(currencyCode: "MXN", currencyDescription: "Mexican Peso"),
-        Currency(currencyCode: "MYR", currencyDescription: "Malaysian Ringgit"),
-        Currency(currencyCode: "NOK", currencyDescription: "Norwegian Krone"),
-        Currency(currencyCode: "NPR", currencyDescription: "Nepalase Rupee"),
-        Currency(currencyCode: "NZD", currencyDescription: "New Zealand Dollar"),
-        Currency(currencyCode: "OMR", currencyDescription: "Omani Rial"),
-        Currency(currencyCode: "PHP", currencyDescription: "Philippine Peso"),
-        Currency(currencyCode: "PKR", currencyDescription: "Pakistani Rupee"),
-        Currency(currencyCode: "PLN", currencyDescription: "Polish Zloty"),
-        Currency(currencyCode: "QAR", currencyDescription: "Qatari Riyal"),
-        Currency(currencyCode: "RON", currencyDescription: "Romanian New Leu"),
-        Currency(currencyCode: "RUB", currencyDescription: "Russian Ruble"),
-        Currency(currencyCode: "SAR", currencyDescription: "Saudi Arabian Riyal"),
-        Currency(currencyCode: "SEK", currencyDescription: "Swedish Krona"),
-        Currency(currencyCode: "THB", currencyDescription: "Thai Baht"),
-        Currency(currencyCode: "TRY", currencyDescription: "Turkish Lira"),
-        Currency(currencyCode: "TTD", currencyDescription: "Trinidadian Dollar"),
-        Currency(currencyCode: "TWD", currencyDescription: "Taiwan New Dollar"),
-        Currency(currencyCode: "VEF", currencyDescription: "Venezuelan Bolivar"),
-        Currency(currencyCode: "ZAR", currencyDescription: "South African Rand")
-    ]
-     
-   
+
+
+
+
+struct CurrencyCodeData {
+    let code: String
+    var fullName: CurrencyCode?
+    var flag: UIImage?
     
-    
-    init(currencyCode: String, currencyDescription: String) {
-        self.currencyCode = currencyCode
-        self.currencyDescription = currencyDescription
+    init(code: String, fullName: String, flag: UIImage) {
+        self.code = code
+        switch code {
+        case "EUR":
+            self.fullName = .eur
+            self.flag = UIImage(named: "EUR")
+        case "AUD":
+            self.fullName = .aud
+            self.flag = UIImage(named: "AUD")
+        case "BGN":
+            self.fullName = .bgn
+            self.flag = UIImage(named: "BGN")
+        case "BRL":
+            self.fullName = .brl
+            self.flag = UIImage(named: "BRL")
+        case "CAD":
+            self.fullName = .cad
+            self.flag = UIImage(named: "CAD")
+        case "CHF":
+            self.fullName = .chf
+            self.flag = UIImage(named: "CHF")
+        case "CNY":
+            self.fullName = .cny
+            self.flag = UIImage(named: "CNY")
+        case "CZK":
+            self.fullName = .czk
+            self.flag = UIImage(named: "CZK")
+        case "DKK":
+            self.fullName = .dkk
+            self.flag = UIImage(named: "DKK")
+        case "GBP":
+            self.fullName = .gbp
+            self.flag = UIImage(named: "GBP")
+        case "HKD":
+            self.fullName = .hkd
+            self.flag = UIImage(named: "HKD")
+        case "HRK":
+            self.fullName = .hrk
+            self.flag = UIImage(named: "HRK")
+        case "HUF":
+            self.fullName = .huf
+            self.flag = UIImage(named: "HUF")
+        case "IDR":
+            self.fullName = .idr
+            self.flag = UIImage(named: "IDR")
+        case "ILS":
+            self.fullName = .ils
+            self.flag = UIImage(named: "ILS")
+        case "INR":
+            self.fullName = .inr
+            self.flag = UIImage(named: "INR")
+        case "ISK":
+            self.fullName = .isk
+            self.flag = UIImage(named: "ISK")
+        case "JPY":
+            self.fullName = .jpy
+            self.flag = UIImage(named: "JPY")
+        case "KRW":
+            self.fullName = .krw
+            self.flag = UIImage(named: "KRW")
+        case "MXN":
+            self.fullName = .mxn
+            self.flag = UIImage(named: "MXN")
+        case "MYR":
+            self.fullName = .mry
+            self.flag = UIImage(named: "MYR")
+        case "NOK":
+            self.fullName = .nok
+            self.flag = UIImage(named: "NOK")
+        case "NZD":
+            self.fullName = .nzd
+            self.flag = UIImage(named: "NZD")
+        case "PHP":
+            self.fullName = .php
+            self.flag = UIImage(named: "PHP")
+        case "PLN":
+            self.fullName = .pln
+            self.flag = UIImage(named: "PLN")
+        case "RON":
+            self.fullName = .ron
+            self.flag = UIImage(named: "RON")
+        case "RUB":
+            self.fullName = .rub
+            self.flag = UIImage(named: "RUB")
+        case "SEK":
+            self.fullName = .sek
+            self.flag = UIImage(named: "SEK")
+        case "SGD":
+            self.fullName = .sgd
+            self.flag = UIImage(named: "SGD")
+        case "THB":
+            self.fullName = .thb
+            self.flag = UIImage(named: "THB")
+        case "USD":
+            self.fullName = .usd
+            self.flag = UIImage(named: "USD")
+        case "ZAR":
+            self.fullName = .zar
+            self.flag = UIImage(named: "ZAR")
+        default:
+            self.fullName = .none
+        }
     }
-        
+}
+enum CurrencyCode: String {
+        case eur = "Euros",
+             aud = "Australian Dollar",
+             bgn = "Burlgarian Lev",
+             brl = "Brazilian Real",
+             cad = "Canadian Dollar",
+            chf = "Swiss Franc",
+            cny = "Chinese Yuan Renminbi",
+            czk = "Czech Koruna",
+            dkk = "Danish Krone",
+            gbp = "British Pound",
+            hkd = "Hong Kong Dollar",
+            hrk = "Croatian Kuna",
+            huf = "Hungarian Forint",
+            idr = "Indonesian Rupiah",
+            ils = "Israeli Shekel",
+            inr = "Indian Rupee",
+            isk = "Icelandic Krona",
+            jpy = "Japanese Yen",
+            krw = "South Korean Won",
+            mxn = "Mexican Peso",
+            mry = "Malaysian Ringgit",
+            nok = "Norwegian Krone",
+            nzd = "New Zealand Dollar",
+            php = "Philippine Peso",
+            pln = "Polish Zloty",
+            ron = "Romanian New Leu",
+            rub = "Russian Ruble",
+            sek = "Swedish Krona",
+            sgd = "Singapore Dollar",
+            thb = "Thai Baht",
+            usd = "United States Dollar",
+            zar = "South African Rand"
+            
 }
 

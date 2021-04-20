@@ -8,9 +8,9 @@
 import UIKit
 
 
-class CurrencyPairViewController: UIViewController {
+class CurrencyPairViewController: UIViewController, UITableViewDataSource {
 
-    var currency: [Currency] = []
+    var currency: [CurrencyCodeData] = []
         
     @IBOutlet weak var tableView: UITableView!
     
@@ -18,20 +18,26 @@ class CurrencyPairViewController: UIViewController {
         super.viewDidLoad()
         self.title = "Currency Pair"
         
+        if let path = Bundle.main.path(forResource: "Currencies", ofType: "json") {
+                    let dataArray = try! JSONSerialization.jsonObject(
+                            with: Data(contentsOf: URL(fileURLWithPath: path)),
+                            options: JSONSerialization.ReadingOptions()
+                    ) as! [String]
+                    
+            for rawData in dataArray {
+                let data = rawData
+                currency.append(CurrencyCodeData(code: data, fullName: "", flag: UIImage(named: "EUR")!))
+            }
+        }
     }
     
-
+    
 
 // MARK: UITableViewDataSource
 
-func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 160
-        
-    }
 func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     
     return currency.count
-    
 }
 
 func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -40,8 +46,9 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
         return UITableViewCell()}
     
     let item = currency[indexPath.row]
-    cell.currencyAbriviationLabel?.text = "USD"
-    cell.countryLabel?.text = item.currencyDescription
+    cell.currencyAbriviationLabel?.text = item.code
+    cell.countryLabel?.text = item.fullName.map { $0.rawValue }
+    cell.countryFlagImageView.image = item.flag
    
     
     return cell

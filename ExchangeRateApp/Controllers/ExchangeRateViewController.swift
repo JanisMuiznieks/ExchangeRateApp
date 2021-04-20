@@ -8,7 +8,22 @@
 import UIKit
 
 
-class ExchangeRateViewController: UIViewController {
+class ExchangeRateViewController: UIViewController, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "exchangeCell", for: indexPath) as? ExchangeTableViewCell else {
+            return UITableViewCell()}
+        
+        cell.firstCurrencyLabel?.text = "1 EUR"
+        cell.firstCurrencyNameLabel?.text = "Euros"
+        cell.secondCurrencyLabel?.text = "1.144 USD"
+        cell.secondCurrencyNameLabel?.text = "United States Dollar"
+        return cell
+    }
+    
 
     @IBOutlet weak var tableView: UITableView!
     
