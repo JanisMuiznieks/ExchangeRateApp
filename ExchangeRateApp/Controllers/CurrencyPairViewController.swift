@@ -8,7 +8,7 @@
 import UIKit
 
 
-class CurrencyPairViewController: UIViewController, UITableViewDataSource {
+class CurrencyPairViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var currency: [CurrencyCodeData] = []
         
@@ -42,7 +42,7 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
 
 func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
-    guard let cell = tableView.dequeueReusableCell(withIdentifier: "firstCurrencyCell", for: indexPath) as? CurrencyTableViewCell else {
+    guard let cell = tableView.dequeueReusableCell(withIdentifier: "currencyCell", for: indexPath) as? CurrencyTableViewCell else {
         return UITableViewCell()}
     
     let item = currency[indexPath.row]
@@ -55,4 +55,13 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 
 
     }
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        // Get the new view controller using segue.destination.
+//        let destination: SecondCurrencyPairViewController = segue.destination as! SecondCurrencyPairViewController
+//        // Pass the selected object to the new view controller.
+//        destination.tableView = tableView
+//    }
 }
