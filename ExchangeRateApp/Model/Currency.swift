@@ -9,7 +9,13 @@ import UIKit
 import Foundation
 
 
-
+struct Code{
+    let code: String
+    
+    init(code: String){
+        self.code = code
+    }
+}
 
 
 struct CurrencyCodeData {

@@ -13,5 +13,6 @@ class CurrencyTableViewCell: UITableViewCell {
     @IBOutlet weak var currencyAbriviationLabel: UILabel!
     @IBOutlet weak var countryLabel: UILabel!
     
+ 
     
 }

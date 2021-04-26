@@ -8,7 +8,9 @@
 import UIKit
 
 
-class ExchangeRateViewController: UIViewController, UITableViewDataSource {
+class ExchangeRateViewController: UIViewController, UITableViewDataSource{
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         1
     }
@@ -16,7 +18,7 @@ class ExchangeRateViewController: UIViewController, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "exchangeCell", for: indexPath) as? ExchangeTableViewCell else {
             return UITableViewCell()}
-        
+
         cell.firstCurrencyLabel?.text = "1 EUR"
         cell.firstCurrencyNameLabel?.text = "Euros"
         cell.secondCurrencyLabel?.text = "1.144 USD"
@@ -48,9 +50,16 @@ class ExchangeRateViewController: UIViewController, UITableViewDataSource {
             }
         }
         task.resume()
+//        print(array1)
         // Do any additional setup after loading the view.
+        
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+    }
+    func getData(code: String){
+       print(code)
+    }
 
     /*
     // MARK: - Navigation
