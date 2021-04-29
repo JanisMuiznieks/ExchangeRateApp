@@ -16,9 +16,9 @@ class CurrencyPairViewController: UIViewController, UITableViewDataSource, UITab
     
     var isTapped: Bool = false
     var selectedCellPath: IndexPath?
-    var delegate: PickCurrencyDelegate?
+    
     var array1: [Code] = []
-    var array2: [String] = []
+    
     var currency: [CurrencyCodeData] = []
     var someString: [String] = [CurrencyCode.eur.rawValue]
     var lastSelectedIndexPath = [[IndexPath.init(row: 0, section: 0)], [IndexPath.init(row: 0, section: 1)]]
@@ -68,7 +68,7 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
     cell.currencyAbriviationLabel?.text = item.code
     cell.countryLabel?.text = item.fullName.map { $0.rawValue }
     cell.countryFlagImageView.image = item.flag
-        cell.countryFlagImageView.layer.cornerRadius = cell.countryFlagImageView.frame.size.width / 2
+        cell.countryFlagImageView.layer.cornerRadius = cell.countryFlagImageView.frame.height / 2
         cell.countryFlagImageView.layer.masksToBounds = false
         cell.countryFlagImageView.clipsToBounds = true
         cell.countryFlagImageView.layer.borderWidth = 1
@@ -110,10 +110,8 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             
             
         }
-        tableView.reloadRows(at: [indexPath], with: .none)
-        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
-        
-        
+//        tableView.reloadRows(at: [indexPath], with: .none)
+//        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
 //        let nextVC = ExchangeRateViewController()
 //        nextVC.title = "\(title ?? "Exchange Rate")"
 //        nextVC.tableView = self.tableView
