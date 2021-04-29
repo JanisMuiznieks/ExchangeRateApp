@@ -8,23 +8,30 @@
 import UIKit
 
 
-class ExchangeRateViewController: UIViewController, UITableViewDataSource{
+class ExchangeRateViewController: UIViewController, UITableViewDataSource, PickCurrencyDelegate{
+    func pickCurrencyPair(code: String, fullName: String, currency: String) {
+        exchange.append(Code(code: code, fullName: fullName, currency: currency))
+    }
     
-    var array1: [Code] = []
+    
+    var currency: [CurrencyCodeData] = []
+    var exchange: [Code] = []
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        array1.count
+        exchange.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "exchangeCell", for: indexPath) as? ExchangeTableViewCell else {
             return UITableViewCell()}
 
-        let item = array1[indexPath.row]
+        let item = exchange[indexPath.row]
         
-        cell.firstCurrencyLabel?.text = item.code
-        cell.firstCurrencyNameLabel?.text = "Euros"
-        cell.secondCurrencyLabel?.text = "1.144 USD"
-        cell.secondCurrencyNameLabel?.text = "United States Dollar"
+        cell.firstCurrencyLabel?.text = "1 \(item.code)"
+        cell.firstCurrencyNameLabel?.text = item.fullName
+        cell.secondCurrencyLabel?.text = "\(item.currency) \(item.code)"
+        cell.secondCurrencyNameLabel?.text = item.fullName
         return cell
     }
     
@@ -35,9 +42,24 @@ class ExchangeRateViewController: UIViewController, UITableViewDataSource{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let url = URL(string: "https://europe-west1-revolut-230009.cloudfunctions.net/revolut-ios?pairs=EURUSD")
         
-        let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
+        
+        
+//        print(array1)
+        // Do any additional setup after loading the view.
+        
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+        print("array1: \(exchange)")
+        
+        let partOne =  "https://europe-west1-revolut-230009.cloudfunctions.net/revolut-ios?pairs=EURUSD"
+        let firstCode = ""
+        let secondCode = ""
+        guard let url = URL(string: partOne + firstCode + secondCode) else {return}
+        
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             if error != nil {
                 print("ERROR")
             } else {
@@ -45,19 +67,22 @@ class ExchangeRateViewController: UIViewController, UITableViewDataSource{
                     do {
                         let myJson = try JSONSerialization.jsonObject(with: content, options: JSONSerialization.ReadingOptions.mutableContainers) as AnyObject
                         print(myJson)
-                    } catch {
+                        
+                        let currency = "\(myJson)"
+                        let startIndex = currency.index(currency.startIndex, offsetBy: 16)
+                        let endIndex = currency.index(currency.startIndex, offsetBy: 21)
+                        let currencyString = String(currency[startIndex...endIndex])
+                        self.exchange.append(Code(code: "", fullName: "", currency: currencyString))
+                        print(currencyString)
+                        } catch {
                         
                     }
                 }
             }
         }
         task.resume()
-//        print(array1)
-        // Do any additional setup after loading the view.
         
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        tableView.reloadData()
+        
     }
     
 

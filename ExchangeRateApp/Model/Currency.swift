@@ -11,9 +11,13 @@ import Foundation
 
 struct Code{
     let code: String
+    let fullName: String
+    let currency: String
     
-    init(code: String){
+    init(code: String, fullName: String, currency: String){
         self.code = code
+        self.fullName = fullName
+        self.currency = currency
     }
 }
 

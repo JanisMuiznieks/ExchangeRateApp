@@ -8,7 +8,7 @@
 import UIKit
 
 protocol PickCurrencyDelegate {
-    func pickCurrencyPair(code: String)
+    func pickCurrencyPair(code: String, fullName: String, currency: String)
 }
 
 
@@ -18,7 +18,7 @@ class CurrencyPairViewController: UIViewController, UITableViewDataSource, UITab
     var selectedCellPath: IndexPath?
     
     var array1: [Code] = []
-    
+    var delegate: PickCurrencyDelegate?
     var currency: [CurrencyCodeData] = []
     var someString: [String] = [CurrencyCode.eur.rawValue]
     var lastSelectedIndexPath = [[IndexPath.init(row: 0, section: 0)], [IndexPath.init(row: 0, section: 1)]]
@@ -56,18 +56,10 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
     guard let cell = tableView.dequeueReusableCell(withIdentifier: "currencyCell", for: indexPath) as? CurrencyTableViewCell else {
         return UITableViewCell()}
         let item = currency[indexPath.row]
-
-        //        cell.selectionStyle = .none
-//        let selectedSectionIndexes = self.lastSelectedIndexPath[indexPath.section]
-//        if selectedSectionIndexes.contains(indexPath) {
-//            cell.accessoryType = .checkmark
-//        } else {
-//            cell.accessoryType = .none
-//        }
-    
-    cell.currencyAbriviationLabel?.text = item.code
-    cell.countryLabel?.text = item.fullName.map { $0.rawValue }
-    cell.countryFlagImageView.image = item.flag
+   
+        cell.currencyAbriviationLabel?.text = item.code
+        cell.countryLabel?.text = item.fullName.map { $0.rawValue }
+        cell.countryFlagImageView.image = item.flag
         cell.countryFlagImageView.layer.cornerRadius = cell.countryFlagImageView.frame.height / 2
         cell.countryFlagImageView.layer.masksToBounds = false
         cell.countryFlagImageView.clipsToBounds = true
@@ -84,27 +76,18 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
         if isTapped {
             print("First Currency Pair Selected Cell:", indexPath)
             print("First Content:", item.code)
-            array1.append(Code(code: item.code))
-//            tableView.deselectRow(at: indexPath, animated: tru?e)
+            array1.append(Code(code: item.code, fullName: item.fullName!.rawValue, currency: ""))
             tableView.reloadData()
-//            self.lastSelectedIndexPath[indexPath.section].removeAll()
-//            self.lastSelectedIndexPath[indexPath.section].append(indexPath)
             print(array1 )
+            guard let vc = navigationController?.viewControllers.first as? ExchangeRateViewController else {return}
+                            vc.exchange.append(Code(code: item.code, fullName: item.fullName!.rawValue, currency: ""))
             if array1.count == 1 {
                 currency.remove(at: indexPath.row)
                 tableView.reloadData()
             }
             if array1.count == 2 {
-//                let cell = tableView.dequeueReusableCell(withIdentifier: "exchangeCell", for: indexPath) as? ExchangeTableViewCell
-//
-//                let item = array1[indexPath.row]
-                let nextVC: UIViewController = ExchangeRateViewController()
-//                cell?.firstCurrencyLabel.text = item.code.uppercased()
-//                cell?.secondCurrencyLabel.text = item.code.uppercased()
-                self.present(nextVC, animated: true, completion: nil)
+                self.navigationController?.popViewController(animated: true)
                 
-//                delegate?.pickCurrencyPair(code: item.code)
-//                self.dismiss(animated: true, completion: nil)
             }
             isTapped = false
             
@@ -132,8 +115,8 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
 //     In a storyboard-based application, you will often want to do a little preparation before navigation
 //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
-//        let destination: ExchangeRateViewController = segue.destination as! ExchangeRateViewController
-//        // Pass the selected object to the new view controller.
-//        destination.tableView = tableView
+//        let destination: ExchangeRateViewController = segue.destination as! Ex
+        // Pass the selected object to the new view controller.
+//        destination.urlString = webURLString
 //    }
 }
