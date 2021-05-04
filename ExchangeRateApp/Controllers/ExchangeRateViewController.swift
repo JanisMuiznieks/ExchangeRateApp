@@ -7,93 +7,108 @@
 
 import UIKit
 
-
-class ExchangeRateViewController: UIViewController, UITableViewDataSource, PickCurrencyDelegate{
-    func pickCurrencyPair(code: String, fullName: String, currency: String) {
-        exchange.append(Code(code: code, fullName: fullName, currency: currency))
+class ExchangeRateViewController: UIViewController, UITableViewDataSource, PickCurrencyDelegate {
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    var exchangeRates: [ExchangeRate] = []
+    var currencyPairs: [(lhs: CurrencyCodeData, rhs: CurrencyCodeData)] = []
+    
+    private var pendingCurrency: CurrencyCodeData? = nil
+    
+    func pickedCurrency(_ selectedCurrency: CurrencyCodeData) {
+        if let currency = pendingCurrency {
+            let currencyPair = (currency, selectedCurrency)
+            currencyPairs.append(currencyPair)
+            
+            pendingCurrency = nil
+        } else {
+            pendingCurrency = selectedCurrency
+        }
     }
     
-    
-    var currency: [CurrencyCodeData] = []
-    var exchange: [Code] = []
-    
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        exchange.count
+        exchangeRates.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "exchangeCell", for: indexPath) as? ExchangeTableViewCell else {
-            return UITableViewCell()}
-
-        let item = exchange[indexPath.row]
+            return UITableViewCell()
+        }
         
-        cell.firstCurrencyLabel?.text = "1 \(item.code)"
-        cell.firstCurrencyNameLabel?.text = item.fullName
-        cell.secondCurrencyLabel?.text = "\(item.currency) \(item.code)"
-        cell.secondCurrencyNameLabel?.text = item.fullName
+        let exchangeRate = exchangeRates[indexPath.row]
+        
+        cell.firstCurrencyLabel?.text = "1 \(exchangeRate.fromCurrency)"
+        cell.secondCurrencyLabel?.text = "\(exchangeRate.rate) \(exchangeRate.toCurrency)"
+        
+        let currencyPair = currencyPairs[indexPath.row]
+        
+        cell.firstCurrencyNameLabel?.text = currencyPair.lhs.fullName?.rawValue
+        cell.secondCurrencyNameLabel?.text = currencyPair.rhs.fullName?.rawValue
+        
         return cell
     }
     
-
-    @IBOutlet weak var tableView: UITableView!
-    
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        
-        
-//        print(array1)
-        // Do any additional setup after loading the view.
-        
-    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData()
-        print("array1: \(exchange)")
         
-        let partOne =  "https://europe-west1-revolut-230009.cloudfunctions.net/revolut-ios?pairs=EURUSD"
-        let firstCode = ""
-        let secondCode = ""
-        guard let url = URL(string: partOne + firstCode + secondCode) else {return}
+        guard !currencyPairs.isEmpty else {
+            return
+        }
         
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+        let urlString = "https://europe-west1-revolut-230009.cloudfunctions.net/revolut-ios"
+        
+        var components = URLComponents(string: urlString)
+        var queryItems: [URLQueryItem] = []
+
+        for currencyPair in currencyPairs {
+            let pair = currencyPair.lhs.code + currencyPair.rhs.code
+            queryItems.append(URLQueryItem(name: "pairs", value: pair))
+        }
+        
+        components?.queryItems = queryItems
+        
+        guard let url = components?.url else {
+            return
+        }
+        
+        print("🛠 Created URL", url)
+        
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if error != nil {
                 print("ERROR")
             } else {
-                if let content = data{
+                if let data = data {
                     do {
-                        let myJson = try JSONSerialization.jsonObject(with: content, options: JSONSerialization.ReadingOptions.mutableContainers) as AnyObject
-                        print(myJson)
-                        
-                        let currency = "\(myJson)"
-                        let startIndex = currency.index(currency.startIndex, offsetBy: 16)
-                        let endIndex = currency.index(currency.startIndex, offsetBy: 21)
-                        let currencyString = String(currency[startIndex...endIndex])
-                        self.exchange.append(Code(code: "", fullName: "", currency: currencyString))
-                        print(currencyString)
-                        } catch {
+                        let jsonObject = try JSONSerialization.jsonObject(with: data) as? [String: Double]
+                    
+                        if let exchangeRates: [ExchangeRate] = jsonObject?.map({ currencyPair, exchangeRate in
+                            let lhsCurrency = String(currencyPair.prefix(3))
+                            let rhsCurrency = String(currencyPair.suffix(3))
+                            
+                            print("🛠 1 \(lhsCurrency) exchangeable for \(exchangeRate) \(rhsCurrency)")
+                            
+                            return ExchangeRate(fromCurrency: lhsCurrency, toCurrency: rhsCurrency, rate: exchangeRate)
+                        }) {
+                            self.exchangeRates = exchangeRates
+                            
+                            DispatchQueue.main.async {
+                                self.tableView.reloadData()
+                            }
+                        }
+                    } catch {
                         
                     }
                 }
             }
         }
+        
         task.resume()
-        
-        
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if let currencyPairViewController = segue.destination as? CurrencyPairViewController {
+            currencyPairViewController.delegate = self
+        }
     }
-    */
-
 }
