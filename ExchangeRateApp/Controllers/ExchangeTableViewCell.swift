@@ -13,5 +13,8 @@ class ExchangeTableViewCell: UITableViewCell {
     @IBOutlet weak var firstCurrencyNameLabel: UILabel!
     @IBOutlet weak var secondCurrencyLabel: UILabel!
     @IBOutlet weak var secondCurrencyNameLabel: UILabel!
+<<<<<<< HEAD
     
+=======
+>>>>>>> 7dcbd6e31b5e4b9dcf36805229b7ed1765b9e874
 }

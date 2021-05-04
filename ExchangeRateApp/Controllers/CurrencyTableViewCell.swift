@@ -12,7 +12,4 @@ class CurrencyTableViewCell: UITableViewCell {
     @IBOutlet weak var countryFlagImageView: UIImageView!
     @IBOutlet weak var currencyAbriviationLabel: UILabel!
     @IBOutlet weak var countryLabel: UILabel!
-    
- 
-    
 }
