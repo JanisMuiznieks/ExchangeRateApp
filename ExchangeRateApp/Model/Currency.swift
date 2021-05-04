@@ -8,27 +8,16 @@
 import UIKit
 import Foundation
 
-
-struct Code{
-    let code: String
-    let fullName: String
-    let currency: String
-    
-    init(code: String, fullName: String, currency: String){
-        self.code = code
-        self.fullName = fullName
-        self.currency = currency
-    }
-}
-
-
 struct CurrencyCodeData {
     let code: String
     var fullName: CurrencyCode?
     var flag: UIImage?
     
-    init(code: String, fullName: String, flag: UIImage) {
+    init(code: String) {
         self.code = code
+        
+        // If `code` value has the same name as country flag images,
+        // it's redundant to switch, instead `UIImage(named: code)` would cover every single case.
         switch code {
         case "EUR":
             self.fullName = .eur
@@ -131,39 +120,41 @@ struct CurrencyCodeData {
         }
     }
 }
-enum CurrencyCode: String {
-        case eur = "Euros",
-             aud = "Australian Dollar",
-             bgn = "Burlgarian Lev",
-             brl = "Brazilian Real",
-             cad = "Canadian Dollar",
-            chf = "Swiss Franc",
-            cny = "Chinese Yuan Renminbi",
-            czk = "Czech Koruna",
-            dkk = "Danish Krone",
-            gbp = "British Pound",
-            hkd = "Hong Kong Dollar",
-            hrk = "Croatian Kuna",
-            huf = "Hungarian Forint",
-            idr = "Indonesian Rupiah",
-            ils = "Israeli Shekel",
-            inr = "Indian Rupee",
-            isk = "Icelandic Krona",
-            jpy = "Japanese Yen",
-            krw = "South Korean Won",
-            mxn = "Mexican Peso",
-            mry = "Malaysian Ringgit",
-            nok = "Norwegian Krone",
-            nzd = "New Zealand Dollar",
-            php = "Philippine Peso",
-            pln = "Polish Zloty",
-            ron = "Romanian New Leu",
-            rub = "Russian Ruble",
-            sek = "Swedish Krona",
-            sgd = "Singapore Dollar",
-            thb = "Thai Baht",
-            usd = "United States Dollar",
-            zar = "South African Rand"
-            
-}
 
+// This enum should have been the only data type
+// with properties for country flag image and full currency title, therefore,
+// `rawValue` should have been country codes.
+enum CurrencyCode: String {
+    case eur = "Euros",
+         aud = "Australian Dollar",
+         bgn = "Burlgarian Lev",
+         brl = "Brazilian Real",
+         cad = "Canadian Dollar",
+         chf = "Swiss Franc",
+         cny = "Chinese Yuan Renminbi",
+         czk = "Czech Koruna",
+         dkk = "Danish Krone",
+         gbp = "British Pound",
+         hkd = "Hong Kong Dollar",
+         hrk = "Croatian Kuna",
+         huf = "Hungarian Forint",
+         idr = "Indonesian Rupiah",
+         ils = "Israeli Shekel",
+         inr = "Indian Rupee",
+         isk = "Icelandic Krona",
+         jpy = "Japanese Yen",
+         krw = "South Korean Won",
+         mxn = "Mexican Peso",
+         mry = "Malaysian Ringgit",
+         nok = "Norwegian Krone",
+         nzd = "New Zealand Dollar",
+         php = "Philippine Peso",
+         pln = "Polish Zloty",
+         ron = "Romanian New Leu",
+         rub = "Russian Ruble",
+         sek = "Swedish Krona",
+         sgd = "Singapore Dollar",
+         thb = "Thai Baht",
+         usd = "United States Dollar",
+         zar = "South African Rand"
+}

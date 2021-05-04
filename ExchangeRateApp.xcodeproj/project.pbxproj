@@ -18,6 +18,7 @@
 		4E4ACBA02625EB520069490C /* CurrencyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E4ACB9F2625EB520069490C /* CurrencyTableViewCell.swift */; };
 		4E657024262EC0290016BB2A /* Currencies.json in Resources */ = {isa = PBXBuildFile; fileRef = 4E657023262EC0290016BB2A /* Currencies.json */; };
 		4E995AAE2626D4FB008EAA8B /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E995AAD2626D4FB008EAA8B /* Currency.swift */; };
+		7222319126414CA400026B42 /* ExchangeRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7222319026414CA400026B42 /* ExchangeRate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		4E4ACB9F2625EB520069490C /* CurrencyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTableViewCell.swift; sourceTree = "<group>"; };
 		4E657023262EC0290016BB2A /* Currencies.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Currencies.json; path = MyPlayground.playground/Resources/Currencies.json; sourceTree = SOURCE_ROOT; };
 		4E995AAD2626D4FB008EAA8B /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		7222319026414CA400026B42 /* ExchangeRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				4E995AAD2626D4FB008EAA8B /* Currency.swift */,
+				7222319026414CA400026B42 /* ExchangeRate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -193,6 +196,7 @@
 				4E4ACB9D2625E3720069490C /* CurrencyPairViewController.swift in Sources */,
 				4E4ACB8B2625C1490069490C /* ExchangeTableViewCell.swift in Sources */,
 				4E4ACB882625C0E70069490C /* ExchangeRateViewController.swift in Sources */,
+				7222319126414CA400026B42 /* ExchangeRate.swift in Sources */,
 				4E995AAE2626D4FB008EAA8B /* Currency.swift in Sources */,
 				4E4ACB6D2625ABF30069490C /* AppDelegate.swift in Sources */,
 				4E4ACB6F2625ABF30069490C /* SceneDelegate.swift in Sources */,
