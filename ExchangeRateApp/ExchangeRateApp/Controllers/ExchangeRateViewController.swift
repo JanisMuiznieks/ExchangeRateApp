@@ -10,6 +10,7 @@ import UIKit
 class ExchangeRateViewController: UIViewController, UITableViewDataSource, PickCurrencyDelegate {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var addCurrencyButton: UIButton!
     
     var exchangeRates: [ExchangeRate] = []
     var currencyPairs: [(lhs: CurrencyCodeData, rhs: CurrencyCodeData)] = []
@@ -28,7 +29,12 @@ class ExchangeRateViewController: UIViewController, UITableViewDataSource, PickC
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        exchangeRates.count
+        if exchangeRates.count > 0 {
+            self.tableView.isHidden = false
+        } else {
+            self.tableView.isHidden = true
+        }
+        return exchangeRates.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -49,9 +55,10 @@ class ExchangeRateViewController: UIViewController, UITableViewDataSource, PickC
         return cell
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        title = "Exchange Rate"
         guard !currencyPairs.isEmpty else {
             return
         }
@@ -104,6 +111,15 @@ class ExchangeRateViewController: UIViewController, UITableViewDataSource, PickC
         }
         
         task.resume()
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            exchangeRates.remove(at: indexPath.row)
+            currencyPairs.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        tableView.reloadData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
