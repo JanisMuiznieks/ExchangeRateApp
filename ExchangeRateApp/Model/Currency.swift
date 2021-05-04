@@ -8,27 +8,16 @@
 import UIKit
 import Foundation
 
-
-struct Code{
-    let code: String
-    let fullName: String
-    let currency: String
-    
-    init(code: String, fullName: String, currency: String){
-        self.code = code
-        self.fullName = fullName
-        self.currency = currency
-    }
-}
-
-
 struct CurrencyCodeData {
     let code: String
     var fullName: CurrencyCode?
     var flag: UIImage?
     
-    init(code: String, fullName: String, flag: UIImage) {
+    init(code: String) {
         self.code = code
+        
+        // If `code` value has the same name as country flag images,
+        // it's redundant to switch, instead `UIImage(named: code)` would cover every single case.
         switch code {
         case "EUR":
             self.fullName = .eur
